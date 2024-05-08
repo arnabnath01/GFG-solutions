@@ -8,30 +8,37 @@ using namespace std;
 // User function template for C++
 
 class Solution {
-  public:
+public:
     int getMinDiff(int arr[], int n, int k) {
-        // code here
-        // int maxi= *max_element(arr,arr+n);
-        // int mini= *min_element(arr,arr+n);
+        // Sort the array to have a better understanding of elements' distribution.
+        sort(arr, arr + n);
         
-        // return maxi-mini-2*k;
+        // Initialize the minimum difference to the difference between the last and the first element.
+        int minDifference = arr[n - 1] - arr[0]; 
         
-        sort(arr,arr+n);
-        int ans = arr[n-1]-arr[0]; 
-        
-        for(int i=1;i<n;i++)
-        {
-            int maxi=max(arr[i-1]+k,arr[n-1]-k);
-            int mini =min(arr[0]+k,arr[i]-k);
-            if(mini<0) continue;
+        // Iterate through the array elements.
+        for (int i = 1; i < n; i++) {
+            // Calculate the maximum possible value for the current partition from the second half.
+            int maxSecondHalf = max(arr[i - 1] + k, arr[n - 1] - k);
             
-            ans=min(ans,maxi-mini);
+            // Calculate the minimum possible value for the current partition from the first half.
+            int minFirstHalf = min(arr[0] + k, arr[i] - k);
+            
+            // Check if the minimum for the first half is negative, meaning the partition does not exist.
+            // In such cases, skip this partition.
+            if (minFirstHalf < 0) 
+                continue;
+            
+            // Update the minimum difference if the difference between the maximum of the second half
+            // and the minimum of the first half is smaller.
+            minDifference = min(minDifference, maxSecondHalf - minFirstHalf);
         }
         
-        return ans;
-        
+        // Return the minimum difference found.
+        return minDifference;
     }
 };
+
 
 //{ Driver Code Starts.
 int main() {
