@@ -103,25 +103,37 @@ struct Node
 
 class Solution{
     public:
-    //Function to check whether all nodes of a tree have the value 
-    //equal to the sum of their child nodes.
-    bool f(Node* root){
-        int sum = 0;
-        if(root==NULL || (root->left==NULL && root->right==NULL)) return true;
-        else{
-            if(root->left) sum+=root->left->data;
-            if(root->right) sum+=root->right->data;
-            return (root->data==sum && f(root->left) && f(root->right));
+    // Function to check whether all nodes of a tree have the value 
+    // equal to the sum of their child nodes.
+    bool isSumProperty(Node *root) {
+        // Base case: if the tree is empty or it's a leaf node, return true
+        if (root == NULL || (root->left == NULL && root->right == NULL)) {
+            return true;
         }
-        
-    }
-    
-    int isSumProperty(Node *root)
-    {
-     // Add your code here
-     return f(root);
+
+        // Initialize the sum of child nodes
+        int childSum = 0;
+
+        // Add left child's data to childSum if it exists
+        if (root->left != NULL) {
+            childSum += root->left->data;
+        }
+
+        // Add right child's data to childSum if it exists
+        if (root->right != NULL) {
+            childSum += root->right->data;
+        }
+
+        // Check if root's data is equal to the sum of its children
+        if (root->data != childSum) {
+            return false;
+        }
+
+        // Recursively check the same property for left and right subtrees
+        return isSumProperty(root->left) && isSumProperty(root->right);
     }
 };
+
 
 //{ Driver Code Starts.
 
