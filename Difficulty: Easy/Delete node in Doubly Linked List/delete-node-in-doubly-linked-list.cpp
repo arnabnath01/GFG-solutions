@@ -37,14 +37,26 @@ class Solution {
   public:
     Node* deleteNode(Node* head, int x) {
         // Your code here
-         Node * NewNode = head;
-        if (x>1)    {
-            for (int i=1;i<x-1;i++)   {
-                NewNode=NewNode->next;
-            }
+        
+          if(x == 1){
+            head = head->next;
+            if(head) head->prev = NULL;
+            return head;
         }
-        else head = NewNode->next;
-        NewNode->next=NewNode->next->next;
+        
+        int cnt = 1;
+        Node* temp = head;
+        while(temp && cnt != x){
+            temp = temp->next;
+            cnt++;
+        }
+        
+        if(!temp) return head;
+        
+        temp->prev->next = temp->next;
+        if(temp->next) temp->next->prev = temp->prev;
+        
+        delete temp;
         
         return head;
     }
