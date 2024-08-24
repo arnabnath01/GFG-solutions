@@ -1,74 +1,81 @@
 //{ Driver Code Starts
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 
 // } Driver Code Ends
-class Solution
-{
-    int f(int ind,int w, int wt[], int val[], int n,vector<vector<int>>&dp)
-    {
-        if(ind==0){
-            if(wt[ind]<=w){
-                return val[ind];
-            }
-            // w!=0
-            else{
-                return 0;
+class Solution {
+  public:
+    // Function to return max value that can be put in knapsack of capacity W.
+    int knapSack(int W, vector<int>& wt, vector<int>& val) {
+        // Your code here
+        int n=wt.size();
+        vector<vector<int>>dp(n+1,vector<int>(W+1,0));
+        
+        // for(int i=0;i<n;i++){
+        //     dp[0]
+        // }
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=W;j++){
+                int nontake=dp[i-1][j];
+                int take=INT_MIN;
+                if(wt[i-1]<=j){
+                    take=val[i-1]+dp[i-1][j-wt[i-1]];
+                }
+            dp[i][j]=max(take,nontake);
             }
         }
         
-    //     if (ind == 0 || w == 0) {
-    //     return 0;
-    // }
-    
-        if(dp[ind][w]!=-1) return dp[ind][w];
-        
-        int notpick=f(ind-1,w,wt,val,n,dp);
-        int pick =INT_MIN;
-        if(wt[ind]<=w){
-            pick=val[ind]+f(ind-1,w-wt[ind],wt,val,n,dp);
-        }
-        return dp[ind][w]=max(pick,notpick);
-    }
-    public:
-    //Function to return max value that can be put in knapsack of capacity W.
-    int knapSack(int W, int wt[], int val[], int n) 
-    { 
-       // Your code here
-       vector<vector<int>>dp(n,vector<int>(W+1,-1));
-       return f(n-1,W,wt,val,n,dp);
+        // for(int i=0;i<=n;i++){
+        //     for(int j=0;j<=W;j++){
+        //         cout<<dp[i][j]<<" ";
+        //     }
+        //     cout<<endl;
+        // }
+        return dp[n][W];
     }
 };
 
 //{ Driver Code Starts.
 
-int main()
- {
-    //taking total testcases
+int main() {
+    // taking total testcases
     int t;
-    cin>>t;
-    while(t--)
-    {
-        //reading number of elements and weight
+    cin >> t;
+    cin.ignore();
+    while (t--) {
+        // reading number of elements and weight
         int n, w;
-        cin>>n>>w;
-        
-        int val[n];
-        int wt[n];
-        
-        //inserting the values
-        for(int i=0;i<n;i++)
-            cin>>val[i];
-        
-        //inserting the weights
-        for(int i=0;i<n;i++)
-            cin>>wt[i];
+        vector<int> arr, val, wt, drr;
+        string ip;
+        int number;
+        getline(cin, ip);
+        stringstream ss(ip);
+
+        while (ss >> number) {
+            arr.push_back(number);
+        }
+
+        getline(cin, ip);
+        ss.clear();
+        ss.str(ip);
+
+        while (ss >> number) {
+            val.push_back(number);
+        }
+
+        w = arr[0];
+        n = val.size();
+        getline(cin, ip);
+        ss.clear();
+        ss.str(ip);
+
+        while (ss >> number) {
+            wt.push_back(number);
+        }
         Solution ob;
-        //calling method knapSack()
-        cout<<ob.knapSack(w, wt, val, n)<<endl;
-        
+        cout << ob.knapSack(w, wt, val) << endl;
     }
-	return 0;
+    return 0;
 }
 // } Driver Code Ends
