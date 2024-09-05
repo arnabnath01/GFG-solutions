@@ -14,14 +14,16 @@ class Solution {
     int missingNumber(int n, vector<int>& arr) {
 
         // Your code goes here
-        int missing =0;
-        for(auto x:arr){
-            missing^=x;
-        }
+        int xr=0;
+        
+        for(auto x:arr)
+        xr^=x;
+        
         for(int i=1;i<=n;i++){
-            missing^=i;
+            xr^=i;
         }
-        return missing;
+        return xr;
+        
     }
 };
 
