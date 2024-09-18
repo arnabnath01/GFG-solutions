@@ -12,22 +12,27 @@ class Solution
     bool ispar(string x)
     {
         // Your code here
-        stack<char>st;
-        
-        for(auto c:x){
-            if(c=='{' || c=='(' || c=='['){
-                st.push(c);
+         stack<char> s;
+    
+        for(char c : x) {
+            if(c == '{' || c == '(' || c == '[') {
+                s.push(c);
+            } else {
+                if(s.empty()) {
+                    return false;
+                }
                 
-            }
-            else{
-                if(st.empty()) return false;
-                else if(c==')' && st.top()=='(') st.pop();
-                else if(c=='}' && st.top()=='{') st.pop();
-                else if(c==']' && st.top()=='[') st.pop();
-                else return false;
+                char t = s.top();
+                
+                if((c == '}' && t == '{') || (c == ']' && t == '[') || (c == ')' && t == '(')) {
+                    s.pop(); 
+                } else {
+                    return false;
+                }
             }
         }
-        return st.empty();
+        
+        return s.empty();
     }
 
 };
