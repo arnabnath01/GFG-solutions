@@ -17,25 +17,22 @@ struct Node {
 
 
 // } Driver Code Ends
-
 class Solution {
   public:
-    void tree(Node* &root ,vector<int> &bst){
-        if(root==NULL)return;
-        tree(root-> left , bst);
-        bst.push_back(root -> data);
-        tree(root-> right , bst);
-        return ;
-         }
-
-
+    // Function to check whether a Binary Tree is BST or not.
+   void check(Node* head, int &x , bool &dekh){
+        if(head==NULL) return;
+        check(head->left, x, dekh);
+        if(x>=head->data) dekh=false;
+         x=head->data;
+        check(head->right, x, dekh);
+    }
     bool isBST(Node* root) {
-         vector<int> bst;
-        tree(root , bst);
-        for(int i =0 ; i< bst.size() -1; i++){
-            if(bst[i]>= bst[i+1]) return false;
-        }
-        return true;
+        // Your code here
+        bool dekh= true;
+        int x =INT_MIN;
+        check(root, x, dekh);
+        return dekh;
     }
 };
 
@@ -134,6 +131,7 @@ int main() {
 
         else
             cout << "false\n";
+        cout << "~" << endl;
     }
     return 0;
 }
